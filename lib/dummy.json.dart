@@ -159,22 +159,23 @@ final class JsonParser {
     return (data['id'], data['title']);
   }
 
-  static List<AndroidVerison> _convertToModel(dynamic data) {
+  static List<AndroidVerison> _findAndConvertToModel(dynamic data) {
     List<AndroidVerison> result = [];
 
     if (data is List) {
       for (var item in data) {
-        result = result + _convertToModel(item);
+        result = result + _findAndConvertToModel(item);
       }
     } else if (data is Map) {
       List<String> keys = data.keys.map((e) => e.toString()).toList();
+      /// base case for the recursion
       if (keys.contains('id') && keys.contains('title')) {
         final (id, title) = _obj(data);
         AndroidVerison verison = AndroidVerison(id: id, title: title);
         result.add(verison);
       } else {
         for (var key in keys) {
-          result = result + _convertToModel(data[key]);
+          result = result + _findAndConvertToModel(data[key]);
         }
       }
     }
@@ -183,6 +184,6 @@ final class JsonParser {
   }
 
   static List<AndroidVerison> parseJsonString(String jsonStr) {
-    return _convertToModel(_parseJsonString(jsonStr));
+    return _findAndConvertToModel(_parseJsonString(jsonStr));
   }
 }
