@@ -158,36 +158,52 @@ final class JsonParser {
   static (int, String) _obj(Map data) {
     return (data['id'], data['title']);
   }
-
   static List<AndroidVerison> _findAndConvertToModel(dynamic data) {
+    // Initialize an empty list to store the extracted AndroidVerison objects
     List<AndroidVerison> result = [];
 
+    // Check if the input data is a list
     if (data is List) {
+      // Iterate through each item in the list
       for (var item in data) {
+        // Recursively call _findAndConvertToModel to process nested lists
         result = result + _findAndConvertToModel(item);
       }
     } else if (data is Map) {
+      // Convert the map keys to a list of strings
       List<String> keys = data.keys.map((e) => e.toString()).toList();
 
-      /// base case for the recursion
+      // Check if the map contains both 'id' and 'title' keys
       if (keys.contains('id') && keys.contains('title')) {
+        // Extract the 'id' and 'title' values from the map
         final (id, title) = _obj(data);
+
+        // Create an AndroidVerison object using the extracted values
         AndroidVerison verison = AndroidVerison(id: id, title: title);
+
+        // Add the created object to the result list
         result.add(verison);
+
+        // If there are additional keys besides 'id' and 'title'
         if (keys.length > 2) {
+          // Iterate through the remaining keys
           for (var key in keys) {
+            // Skip 'id' and 'title' keys
             if (key != 'id' && key != 'title') {
+              // Recursively call _findAndConvertToModel to process nested maps
               result = result + _findAndConvertToModel(data[key]);
             }
           }
         }
       } else {
+        // If the map doesn't contain both 'id' and 'title' keys, recursively process nested maps
         for (var key in keys) {
           result = result + _findAndConvertToModel(data[key]);
         }
       }
     }
 
+    // Return the list of extracted AndroidVerison objects
     return result;
   }
 
