@@ -8,6 +8,7 @@ To run the unit tests, execute the following command from the project root direc
 
 ```bash
 flutter test
+```
 
 
 ## Screenshots
