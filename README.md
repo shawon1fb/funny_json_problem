@@ -1,6 +1,7 @@
 # funny_json_problem
 
-This project demonstrates a funny JSON problem.
+This project delves into the intricacies of handling complex and dynamic JSON structures. It showcases the challenges and solutions involved in parsing and manipulating JSON data with unpredictable or nested structures.
+
 
 ## Running Unit Tests
 
